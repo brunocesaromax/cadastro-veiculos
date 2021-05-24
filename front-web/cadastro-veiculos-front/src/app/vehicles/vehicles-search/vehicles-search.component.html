@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="ui-g">
+    <form autocomplete="off" (ngSubmit)="findAllByTerm()">
+      <div class="ui-g-12">
+        <h1>Veículos</h1>
+      </div>
+      <div class="ui-g-12">
+          <label>Termo de Busca </label>
+          <input type="text" pInputText name="term" [(ngModel)]="term" placeholder="Marca, Descrição">
+          <button pButton class="btn-search" type="submit" label="Pesquisar"></button>
+      </div>
+    </form>
+  </div>
+
+  <div class="ui-g veiculos-table">
+    <div class="ui-g">
+      <p-table [value]="veiculos" [responsive]="true"
+               [paginator]="true" [rows]="1000"
+               [lazy]="true" [totalRecords]="totalElements"
+               #table>>
+        <ng-template pTemplate="header">
+          <tr>
+            <th *ngFor="let header of headers">
+              {{header}}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-vehicle>
+          <tr>
+            <td>{{vehicle.marca}}</td>
+            <td>{{vehicle.ano}}</td>
+            <td>{{vehicle.descricao}}</td>
+            <td>{{vehicle.vendido ? 'Sim' : 'Não'}}</td>
+            <td class="col-actions">
+              <a pButton class="edit-button" pTooltip="Editar" [routerLink]="['/veiculos', vehicle.id]" tooltipPosition="top" style="margin:5px"><i
+                class="pi pi-pencil"></i></a>
+              <button pButton class="trash-button"
+                      pTooltip="Excluir"
+                      tooltipPosition="top"
+                      (click)="deleteConfirm(vehicle)"
+                      style="margin:5px"><i
+                class="pi pi-trash"></i></button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+            <td [colSpan]="5">Nenhum Veículo foi encontrado!</td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <div class="ui-g-12">
+        <a pButton label="Novo Veículo" routerLink="/vehicles/new" class="launch-button"></a>
+      </div>
+
+    </div>
+  </div>
+</div>

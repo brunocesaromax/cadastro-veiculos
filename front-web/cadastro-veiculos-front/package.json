@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "sudo ng serve",
+    "build": "sudo ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -12,6 +12,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~11.2.1",
+    "@angular/cdk": "^12.0.1",
     "@angular/common": "~11.2.1",
     "@angular/compiler": "~11.2.1",
     "@angular/core": "~11.2.1",
@@ -19,7 +20,12 @@
     "@angular/platform-browser": "~11.2.1",
     "@angular/platform-browser-dynamic": "~11.2.1",
     "@angular/router": "~11.2.1",
-    "rxjs": "~6.6.0",
+    "ng2-currency-mask": "^11.0.0",
+    "ng2-toasty": "^4.0.3",
+    "primeicons": "^4.1.0",
+    "primeng": "11.4.2",
+    "rxjs": "~6.6.3",
+    "rxjs-compat": "^6.6.3",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"
   },
