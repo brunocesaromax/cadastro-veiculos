@@ -1,0 +1,64 @@
+<div class="container">
+  <form #vehicleForm="ngForm" autocomplete="off" (ngSubmit)="save(vehicleForm)">
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <h1>{{ isEdit ? 'Edição de' : 'Novo' }} Veículo</h1>
+      </div>
+
+      <div class="ui-g-6 ui-fluid">
+        <label>Marca</label>
+        <p-dropdown placeholder="Selecione..."
+                    [filter]="true" [options]="marcas" [(ngModel)]="veiculo.marca" name="marca"
+                    #marca="ngModel" [required]="true" emptyFilterMessage="Nenhum resultado encontrado"></p-dropdown>
+        <app-message [control]="marca.control"
+                     text="Informe a marca"
+                     error="required"
+        ></app-message>
+      </div>
+
+      <div class="ui-g-9 ui-fluid">
+        <label>Descrição</label>
+        <input pInputText
+               type="text"
+               name="descricao"
+               [(ngModel)]="veiculo.descricao" #descricao="ngModel"
+               [required]="true"/>
+        <app-message [control]="descricao.control"
+                     text="Informe a descrição do veículo"
+                     error="required"
+        ></app-message>
+      </div>
+
+      <div class="ui-g-4 ui-fluid">
+        <label>Ano</label>
+        <p-inputMask
+          mask="9999"
+          placeholder="2000"
+          name="ano" [(ngModel)]="veiculo.ano" #ano="ngModel"
+          [required]="true"
+        ></p-inputMask>
+        <app-message [control]="ano.control"
+                     text="Informe o ano do veículo"
+                     error="required"
+        ></app-message>
+      </div>
+
+      <div class="ui-g-4 ui-fluid">
+        <label>Vendido</label>
+        <p-checkbox name="vendido" [binary]="true" [(ngModel)]="veiculo.vendido"></p-checkbox>
+      </div>
+
+      <div class="ui-g-12">
+        <button pButton
+                type="submit"
+                label="Salvar"
+                class="ui-button-"
+                style="margin:5px"
+                [disabled]="vehicleForm.invalid"
+        ></button>
+        <button pButton type="button" label="Novo" (click)="new(vehicleForm)" style="top: -5px"></button>
+        <a class="return-search" routerLink="/vehicles">Voltar para a pesquisa</a>
+      </div>
+    </div>
+  </form>
+</div>

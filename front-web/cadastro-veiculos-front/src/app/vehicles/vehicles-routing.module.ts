@@ -1,25 +1,21 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from "@angular/router";
 import { VehiclesSearchComponent } from "./vehicles-search/vehicles-search.component";
+import { VehiclesFormComponent } from "./vehicles-form/vehicles-form.component";
 
 const routes: Routes = [
   {
     path: '',
     component: VehiclesSearchComponent
   },
-  // {
-  //   path: 'new',
-  //   component: PersonFormComponent,
-  //   canActivate: [AuthGuard],
-  //   data: {roles: ['ROLE_CREATE_PERSON']}
-  // },
-  // {
-  //   path: ':id',
-  //   component: PersonFormComponent,
-  //   canActivate: [AuthGuard],
-  //   data: {roles: ['ROLE_SEARCH_PERSON']}
-  // }
+  {
+    path: 'new',
+    component: VehiclesFormComponent
+  },
+  {
+    path: ':id',
+    component: VehiclesFormComponent
+  }
 ];
 
 

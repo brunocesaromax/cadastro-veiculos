@@ -32,7 +32,7 @@
             <td>{{vehicle.descricao}}</td>
             <td>{{vehicle.vendido ? 'Sim' : 'Não'}}</td>
             <td class="col-actions">
-              <a pButton class="edit-button" pTooltip="Editar" [routerLink]="['/veiculos', vehicle.id]" tooltipPosition="top" style="margin:5px"><i
+              <a pButton class="edit-button" pTooltip="Editar" [routerLink]="['/vehicles', vehicle.id]" tooltipPosition="top" style="margin:5px"><i
                 class="pi pi-pencil"></i></a>
               <button pButton class="trash-button"
                       pTooltip="Excluir"
@@ -51,7 +51,7 @@
       </p-table>
 
       <div class="ui-g-12">
-        <a pButton label="Novo Veículo" routerLink="/vehicles/new" class="launch-button"></a>
+        <a pButton label="Novo Veículo" routerLink="/vehicles/new" class="vehicle-button"></a>
       </div>
 
     </div>

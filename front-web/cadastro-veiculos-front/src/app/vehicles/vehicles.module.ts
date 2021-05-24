@@ -9,11 +9,19 @@ import { TableModule } from "primeng/table";
 import { TooltipModule } from "primeng/tooltip";
 import { VehiclesService } from "./vehicles.service";
 import { HttpClientModule } from "@angular/common/http";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { VehiclesFormComponent } from './vehicles-form/vehicles-form.component';
+import { DropdownModule } from "primeng/dropdown";
+import { InputMaskModule } from "primeng/inputmask";
+import { MessageComponent } from "../message/message.component";
+import { CheckboxModule } from "primeng/checkbox";
 
 
 @NgModule({
-  declarations: [VehiclesSearchComponent],
+  declarations: [
+    VehiclesSearchComponent,
+    VehiclesFormComponent,
+    MessageComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -22,9 +30,12 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
     VehiclesRoutingModule,
 
     InputTextModule,
+    CheckboxModule,
     ButtonModule,
     TableModule,
     TooltipModule,
+    DropdownModule,
+    InputMaskModule
   ],
   providers: [VehiclesService]
 })

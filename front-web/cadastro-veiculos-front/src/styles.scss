@@ -2,6 +2,7 @@
 @import "~primeng/resources/primeng.min.css";
 @import "~primeng/resources/themes/bootstrap4-light-blue/theme.css";
 @import '~primeicons/primeicons.css';
+@import "~ng2-toasty/style-bootstrap.css";
 
 body {
   font-family: Arial, Verdana, sans-serif;
@@ -36,7 +37,7 @@ label {
   text-align: center;
 }
 
-.launch-button {
+.vehicle-button {
   left: -9px;
 }
 
@@ -53,4 +54,3 @@ label {
 .ui-dropdown-filter-container {
   width: 30%;
 }
-
