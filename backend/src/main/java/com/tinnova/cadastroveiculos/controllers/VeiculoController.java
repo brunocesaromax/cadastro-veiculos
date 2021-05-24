@@ -1,5 +1,6 @@
 package com.tinnova.cadastroveiculos.controllers;
 
+import com.tinnova.cadastroveiculos.dto.DashboardDTO;
 import com.tinnova.cadastroveiculos.dto.VeiculoDTO;
 import com.tinnova.cadastroveiculos.services.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,12 @@ public class VeiculoController {
     public ResponseEntity<VeiculoDTO> findById(@PathVariable Long id) {
         VeiculoDTO veiculoDTO = veiculoService.findById(id);
         return ResponseEntity.ok(veiculoDTO);
+    }
+
+    @GetMapping("dashboard")
+    public ResponseEntity<DashboardDTO> dashboard() {
+        DashboardDTO dashboardDTO = veiculoService.findDashboard();
+        return ResponseEntity.ok(dashboardDTO);
     }
 
     @PostMapping

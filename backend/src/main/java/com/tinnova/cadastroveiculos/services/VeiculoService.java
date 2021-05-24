@@ -1,7 +1,9 @@
 package com.tinnova.cadastroveiculos.services;
 
+import com.tinnova.cadastroveiculos.dto.DashboardDTO;
 import com.tinnova.cadastroveiculos.dto.VeiculoDTO;
 import com.tinnova.cadastroveiculos.entities.Veiculo;
+import com.tinnova.cadastroveiculos.enumerated.MarcaVeiculo;
 import com.tinnova.cadastroveiculos.exception.NotFoundException;
 import com.tinnova.cadastroveiculos.repositories.VeiculoRepository;
 import org.springframework.beans.BeanUtils;
@@ -10,6 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,6 +40,24 @@ public class VeiculoService {
     public VeiculoDTO findById(Long id) {
         return repository.findById(id).map(VeiculoDTO::new)
                 .orElseThrow(() -> new NotFoundException("Veículo não encontrado."));
+    }
+
+    @Transactional(readOnly = true)
+    public DashboardDTO findDashboard() {
+        DashboardDTO dashboardDTO = new DashboardDTO();
+        List<Veiculo> veiculos = repository.findAll();
+
+        long totalUnsoldVehicles = veiculos.stream().filter(veiculo -> !veiculo.getVendido()).count();
+        long totalRegisteredLastWeek = veiculos.stream().filter(veiculo -> veiculo.getCreated().isAfter(LocalDateTime.now().minusWeeks(1L))).count();
+        List<DashboardDTO.VehiclePerBrandDTO> vehiclePerBrandDTOList = orderVehiclesByBrand(veiculos);
+        List<DashboardDTO.VehiclePerDecadeDTO> vehiclePerDecadeDTOList = orderVehiclesByDecade(veiculos);
+
+        dashboardDTO.setTotalUnsoldVehicles(totalUnsoldVehicles);
+        dashboardDTO.setTotalRegisteredLastWeek(totalRegisteredLastWeek);
+        dashboardDTO.setVehiclePerBrandList(vehiclePerBrandDTOList);
+        dashboardDTO.setVehiclePerDecadeList(vehiclePerDecadeDTOList);
+
+        return dashboardDTO;
     }
 
     @Transactional
@@ -74,6 +98,36 @@ public class VeiculoService {
         repository.delete(veiculoPersisted);
     }
 
+    private List<DashboardDTO.VehiclePerDecadeDTO> orderVehiclesByDecade(List<Veiculo> veiculos) {
+        List<DashboardDTO.VehiclePerDecadeDTO> vehiclePerDecadeDTOList = new ArrayList<>();
+        int initialLimit = 1900;
+        int finalLimit = LocalDate.now().getYear();
+
+        for (int i = initialLimit; i < finalLimit; i += 10) {
+            int finalCurrentDecade = i + 10 - 1; //Ex: Década de 90 [1990 - 1999]
+            long total = veiculos.stream()
+                    .filter(veiculo -> veiculo.getAno() >= initialLimit && veiculo.getAno() <= finalCurrentDecade)
+                    .count();
+
+            DashboardDTO.VehiclePerDecadeDTO vehiclePerDecadeDTO = new DashboardDTO.VehiclePerDecadeDTO(total, i);
+            vehiclePerDecadeDTOList.add(vehiclePerDecadeDTO);
+        }
+
+        return vehiclePerDecadeDTOList;
+    }
+
+    private List<DashboardDTO.VehiclePerBrandDTO> orderVehiclesByBrand(List<Veiculo> veiculos) {
+        List<DashboardDTO.VehiclePerBrandDTO> vehiclePerBrandDTOList = new ArrayList<>();
+
+        Arrays.asList(MarcaVeiculo.values()).forEach(brand -> {
+            long total = veiculos.stream().filter(veiculo -> veiculo.getMarca().equals(brand)).count();
+            DashboardDTO.VehiclePerBrandDTO vehiclePerBrandDTO = new DashboardDTO.VehiclePerBrandDTO(total, brand);
+            vehiclePerBrandDTOList.add(vehiclePerBrandDTO);
+        });
+
+        return vehiclePerBrandDTOList;
+    }
+
     private void checkIfExistsToCreate(VeiculoDTO veiculoDTO) {
         boolean veiculoExists = repository.findByMainVeiculoInfo(veiculoDTO.getMarca(), veiculoDTO.getDescricao(), veiculoDTO.getAno()).isPresent();
 
@@ -85,7 +139,7 @@ public class VeiculoService {
     private void checkIfExistsToUpdate(Long id, VeiculoDTO veiculoDTO) {
         Optional<Veiculo> veiculoOptional = repository.findByMainVeiculoInfo(veiculoDTO.getMarca(), veiculoDTO.getDescricao(), veiculoDTO.getAno());
 
-        if (veiculoOptional.isPresent()){
+        if (veiculoOptional.isPresent()) {
             Veiculo veiculo = veiculoOptional.get();
 
             if (!veiculo.getId().equals(id)) {
