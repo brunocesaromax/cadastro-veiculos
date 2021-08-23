@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from "@angular/common/http";
-import { ToastyService } from "ng2-toasty";
+import { ToastrService } from "ngx-toastr";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ErrorHandlerService {
 
-  constructor(private toastyService: ToastyService) {
+  constructor(private toastrService: ToastrService) {
   }
 
   handle(errorResponse: any) {
@@ -30,6 +30,6 @@ export class ErrorHandlerService {
       console.log('Ocorreu um erro:', errorResponse);
     }
 
-    this.toastyService.error(msg);
+    this.toastrService.error(msg);
   }
 }

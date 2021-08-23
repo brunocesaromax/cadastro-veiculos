@@ -3,8 +3,8 @@ import { Veiculo } from "../Vehicle";
 import { Title } from "@angular/platform-browser";
 import { VehiclesService } from "../vehicles.service";
 import { ConfirmationService } from "primeng/api";
-import { ToastyService } from "ng2-toasty";
 import { ErrorHandlerService } from "../../error-handler.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-vehicles-search',
@@ -23,7 +23,7 @@ export class VehiclesSearchComponent implements OnInit {
   constructor(private title: Title,
               private vehiclesService: VehiclesService,
               private confirmationService: ConfirmationService,
-              private toastyService: ToastyService,
+              private toastrService: ToastrService,
               private errorHandlerService: ErrorHandlerService) {
   }
 
@@ -61,7 +61,7 @@ export class VehiclesSearchComponent implements OnInit {
     this.vehiclesService.delete(vehicle.id)
       .subscribe(() => {
           this.findAllByTerm();
-          this.toastyService.success('Veículo excluído com sucesso!');
+          this.toastrService.success('Veículo excluído com sucesso!');
         },
         error => this.errorHandlerService.handle(error)
       );

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Veiculo } from "../Vehicle";
 import { ErrorHandlerService } from "../../error-handler.service";
-import { ToastyService } from "ng2-toasty";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Title } from "@angular/platform-browser";
 import { VehiclesService } from "../vehicles.service";
 import { NgForm } from "@angular/forms";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-vehicles-form',
@@ -18,7 +18,7 @@ export class VehiclesFormComponent implements OnInit {
   marcas: any[] = [];
 
   constructor(private errorHandlerService: ErrorHandlerService,
-              private toastyService: ToastyService,
+              private toastrService: ToastrService,
               private activatedRoute: ActivatedRoute,
               private vehiclesService: VehiclesService,
               private router: Router,
@@ -53,7 +53,7 @@ export class VehiclesFormComponent implements OnInit {
       .subscribe(vehicleUpdated => {
           this.veiculo = vehicleUpdated;
           this.updateEditTitle();
-          this.toastyService.success('Veículo atualizado com sucesso!');
+          this.toastrService.success('Veículo atualizado com sucesso!');
         },
         error => this.errorHandlerService.handle(error)
       );
@@ -62,7 +62,7 @@ export class VehiclesFormComponent implements OnInit {
   add(vehicleForm: NgForm) {
     this.vehiclesService.save(this.veiculo)
       .subscribe(() => {
-          this.toastyService.success('Veículo adicionado com sucesso!');
+          this.toastrService.success('Veículo adicionado com sucesso!');
           vehicleForm.reset();
           this.veiculo = new Veiculo();
         },
