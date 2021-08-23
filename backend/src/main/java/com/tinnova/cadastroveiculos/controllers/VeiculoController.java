@@ -13,7 +13,6 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "https://cadastro-veiculos-angular.herokuapp.com", maxAge = 3600)
 @RequestMapping(value = "/veiculos")
 public class VeiculoController {
 
