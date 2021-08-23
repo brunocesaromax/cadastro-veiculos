@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://cadastro-veiculos.herokuapp.com'
+  apiUrl: 'https://cadastro-veiculos-api.herokuapp.com'
 };
